@@ -65,7 +65,9 @@ class OfertaController {
      try {
       const oferta = await Oferta.findOrFail(params.id);
       await oferta.load('images')
-      return response.status(200).send(oferta);
+      const imagens = {images}
+      console.log(imagens)
+      return response.status(200).send(imagens);
 
     } catch (error) {
       return response.status(error.status).send({message: error})
