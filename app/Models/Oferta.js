@@ -4,13 +4,30 @@
 const Model = use('Model')
 
 class Oferta extends Model {
-	 user () {
-   		 return this.belongsTo('App/Models/User')
-  	 }
 
-     images () {
-    	return this.hasMany('App/Models/Image')
-  	 }
+	static get hidden() {
+		return ['created_at', 'updated_at']
+	  }
+	
+	  endereco () {
+		return this.belongsTo('App/Models/Endereco')
+	  }
+	
+	  user () {
+		return this.belongsTo('App/Models/User')
+	  }
+	
+	  avaliacaoOferta () {
+		return this.hasMany('App/Models/AvaliacaoOferta')
+	  }
+	
+	  comentarioOferta () {
+		return this.hasMany('App/Models/ComentarioOferta')
+	  }
+	
+	  images () {
+		return this.hasMany('App/Models/Image')
+	  }
 }
 
 module.exports = Oferta

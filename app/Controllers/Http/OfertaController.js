@@ -1,10 +1,10 @@
 'use strict'
 
+const Oferta = use('App/Models/Oferta')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-
-const Oferta = use('App/Models/Oferta')
 
 /**
  * Resourceful controller for interacting with ofertas
@@ -19,9 +19,17 @@ class OfertaController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const ofertas = Oferta.all()
-    return ofertas
+  async index ({ request, response, auth}) {
+    try {
+      const ofertas = await Oferta.all();
+
+      //await ofertas.loadMany(['image', 'comentarioOferta', 'avaliacacaoOferta'])
+
+      return response.status(200).send(ofertas);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -32,20 +40,17 @@ class OfertaController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-async store ({ auth, request, response }) {
-  const { id } = auth.user
-  const data = request.only([
-    'title',
-    'address',
-    'latitude',
-    'longitude',
-    'price'
-  ])
+  async store ({ request, response }) {
+    try {
+      const data = request.post();
 
-  const oferta = await Oferta.create({ ...data, user_id: id })
+      const oferta = await Oferta.create(data);
 
-  return oferta
-}
+      return response.status(201).send({message: "Oferta criada"});
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
 
   /**
    * Display a single oferta.
@@ -56,15 +61,17 @@ async store ({ auth, request, response }) {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params }) {
-  const oferta = await Oferta.findOrFail(params.id)
+  async show ({ params, request, response }) {
+     try {
+      const oferta = await Oferta.findOrFail(params.id);
+      await oferta.load('images')
+      return response.status(200).send(oferta);
 
-  await oferta.load('images')
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
 
-  return oferta
-}
-
-  
   /**
    * Update oferta details.
    * PUT or PATCH ofertas/:id
@@ -74,21 +81,24 @@ async store ({ auth, request, response }) {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-      const oferta = await Oferta.findOrFail(params.id)
+    try {
+      const oferta = await Oferta.findOrFail(params.id);
 
-       const data = request.only([
-    'title',
-    'address',
-    'latitude',
-    'longitude',
-    'price'
-  ])
+      const data = request.post();
 
-  oferta.merge(data)
+      //if (oferta.id !== auth.oferta.id) {
+         /// return response.status(401).send({ error: 'Não autorizado' })
+      //}
 
-    await oferta.save()
+      oferta.merge(data);
 
-    return oferta
+      await oferta.save();
+
+      return response.status(200).send(oferta);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -99,14 +109,16 @@ async store ({ auth, request, response }) {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, auth, response }) {
-    const property = await Property.findOrFail(params.id)
+  async destroy ({ params, request, response }) {
+    try {
+      const oferta = await Oferta.findOrFail(params.id);
 
-    if (property.user_id !== auth.user.id) {
-      return response.status(401).send({ error: 'Not authorized' })
+      await oferta.delete();
+
+      return response.status(200).send({message: "Oferta removida"});
+    } catch (error) {
+      return response.status(error.status).send({message: error})
     }
-
-    await property.delete()
   }
 }
 
