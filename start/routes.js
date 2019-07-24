@@ -18,9 +18,26 @@ Route.post('/passwords', 'ForgotPasswordController.store')
 
 Route.get('/app', 'AppController.index').middleware(['auth'])
 
-Route.resource('oferta', 'OfertaController')
-  .apiOnly()
-  .middleware('auth')
+Route.group (() => {
+  Route.get('/oferta', 'OfertaController.index')
+  Route.post('/oferta', 'OfertaController.store')
+})
+
+Route.group (() => {
+  Route.get('/oferta/:id', 'OfertaController.show')
+  Route.delete('/oferta/:id', 'OfertaController.destroy')
+  Route.put('/oferta/:id', 'OfertaController.update')
+})
+
+Route.group (() => {
+  Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.store')
+})
+
+Route.group (() => {
+  Route.get('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.show')
+  Route.put('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.update')
+})
+
 
   Route.post('oferta/:id/images', 'ImageController.store')
   .middleware('auth')
