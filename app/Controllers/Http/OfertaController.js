@@ -62,16 +62,12 @@ class OfertaController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response }) {
-     try {
-      const oferta = await Oferta.findOrFail(params.id);
-      await oferta.load('images')
-      const imagens = {images}
-      console.log(imagens)
-      return response.status(200).send(imagens);
 
-    } catch (error) {
-      return response.status(error.status).send({message: error})
-    }
+      const oferta = await Oferta.findOrFail(params.id);
+      const images = await oferta.images().fetch()
+
+      return response.status(200).send(images);
+
   }
 
   /**

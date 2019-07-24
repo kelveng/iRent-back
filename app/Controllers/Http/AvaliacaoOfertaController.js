@@ -1,5 +1,8 @@
 'use strict'
 
+const AvaliacaoOferta = use('App/Models/AvaliacaoOferta')
+const Database = use('Database')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -41,10 +44,19 @@ class AvaliacaoOfertaController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.post();
+
+      const avaliacaoOferta = await AvaliacaoOferta.create(data);
+
+      return response.status(201).send({message: "Avaliação realizada!"});
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
-   * Display a single avaliacaooferta.
+   * Display avg avaliacaooferta.
    * GET avaliacaoofertas/:id
    *
    * @param {object} ctx
@@ -53,6 +65,14 @@ class AvaliacaoOfertaController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    try {
+      const media = await Database.from('avaliacao_ofertas').where('oferta_id',params.id).avg('nota')
+      
+      return response.status(200).send(media)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -76,6 +96,24 @@ class AvaliacaoOfertaController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const avaliacaoOferta = await AvaliacaoOferta.findOrFail(params.id);
+
+      const data = request.post();
+
+      //if (avaliacaoOferta.id !== auth.avaliacaoOferta.id) {
+         /// return response.status(401).send({ error: 'Não autorizado' })
+      //}
+
+      avaliacaoOferta.merge(data);
+
+      await avaliacaoOferta.save();
+
+      return response.status(200).send(avaliacaoOferta);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**

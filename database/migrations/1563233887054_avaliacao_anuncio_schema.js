@@ -3,17 +3,10 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class AvaliacaoOfertaSchema extends Schema {
+class ComentarioAnuncioSchema extends Schema {
   up () {
-    this.create('avaliacao_ofertas', (table) => {
+    this.create('comentario_anuncios', (table) => {
       table.increments()
-      table
-        .integer('oferta_id')
-        .unsigned()
-        .references('id')
-        .inTable('ofertas')
-        .onUpdate('CASCADE')
-        .onDelete('CASCADE')
       table
         .integer('user_id')
         .unsigned()
@@ -21,14 +14,21 @@ class AvaliacaoOfertaSchema extends Schema {
         .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-      table.integer('nota').notNullable()
+      table
+        .integer('anuncio_id')
+        .unsigned()
+        .references('id')
+        .inTable('anuncios')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+      table.string('conteudo', 1024)
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('avaliacao_ofertas')
+    this.drop('comentario_anuncios')
   }
 }
 
-module.exports = AvaliacaoOfertaSchema
+module.exports = ComentarioAnuncioSchema
