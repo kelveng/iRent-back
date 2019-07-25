@@ -21,15 +21,16 @@ class OfertaController {
    */
   async index ({ request, response, auth}) {
     try {
-      const ofertas = await Oferta.all();
-
-      //await ofertas.loadMany(['image', 'comentarioOferta', 'avaliacacaoOferta'])
-
+      const ofertas = await Oferta.query()
+            .with('images')
+            .with('comentarioOferta')
+            .with('avaliacaoOferta') 
+            .fetch()   
+            
       return response.status(200).send(ofertas);
-
     } catch (error) {
       return response.status(error.status).send({message: error})
-    }
+    } 
   }
 
   /**
@@ -64,8 +65,8 @@ class OfertaController {
   async show ({ params, request, response }) {
 
       const oferta = await Oferta.findOrFail(params.id);
-      //const images = await oferta.images().fetch()
-
+      await oferta.loadMany(['images', 'comentarioOferta', 'avaliacaoOferta'])
+      
       return response.status(200).send(oferta);
 
   }
@@ -79,15 +80,6 @@ class OfertaController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async showImages ({ params, request, response }) {
-
-    const oferta = await Oferta.findOrFail(params.id);
-    const images = await oferta.images().fetch()
-
-    return response.status(200).send(images);
-
-}
-
   /**
    * Update oferta details.
    * PUT or PATCH ofertas/:id

@@ -41,6 +41,20 @@ class UserController {
     }
   }
 
+  async getById ({ params, response }) {
+    try {
+      const user = await User.findOrFail(params.id)
+      //User.findByOrFail('id', params.id);
+      
+      console.log(user)
+
+      return response.status(200).send(user);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
   async update ({ params, request, auth,  response }) {
     try {
       const user = await User.findByOrFail('username', params.username);

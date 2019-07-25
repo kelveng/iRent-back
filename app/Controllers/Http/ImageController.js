@@ -32,6 +32,15 @@ class ImageController {
   )
   }
 
+  async showImages ({ params, request, response }) {
+
+    const oferta = await Oferta.findOrFail(params.id);
+    const images = await oferta.images().fetch()
+
+    return response.status(200).send(images);
+
+}
+
   async show ({ params, response }) {
     return response.download(Helpers.tmpPath(`uploads/${params.path}`))
   }
