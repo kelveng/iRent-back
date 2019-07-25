@@ -24,6 +24,7 @@ Route.group (() => {
 })
 
 Route.group (() => {
+  Route.get('/oferta/:id/images', 'OfertaController.showImages')
   Route.get('/oferta/:id', 'OfertaController.show')
   Route.delete('/oferta/:id', 'OfertaController.destroy')
   Route.put('/oferta/:id', 'OfertaController.update')
