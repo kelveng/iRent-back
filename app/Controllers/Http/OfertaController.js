@@ -64,11 +64,29 @@ class OfertaController {
   async show ({ params, request, response }) {
 
       const oferta = await Oferta.findOrFail(params.id);
-      const images = await oferta.images().fetch()
+      //const images = await oferta.images().fetch()
 
-      return response.status(200).send(images);
+      return response.status(200).send(oferta);
 
   }
+
+    /**
+   * Display a single oferta.
+   * GET ofertas/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async showImages ({ params, request, response }) {
+
+    const oferta = await Oferta.findOrFail(params.id);
+    const images = await oferta.images().fetch()
+
+    return response.status(200).send(images);
+
+}
 
   /**
    * Update oferta details.
