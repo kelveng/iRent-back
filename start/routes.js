@@ -40,6 +40,6 @@ Route.group (() => {
 
 
   Route.post('oferta/:id/images', 'ImageController.store')
-  .middleware('auth')
+  //.middleware('auth')
 
   Route.get('images/:path', 'ImageController.show')
