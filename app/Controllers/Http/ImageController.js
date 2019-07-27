@@ -17,7 +17,8 @@ class ImageController {
     size: '2mb'
   })
 
-  await images.moveAll(Helpers.tmpPath('uploads'), file => ({
+  
+  await images.moveAll('uploads', file => ({
     name: `${Date.now()}-${file.clientName}`
   }))
 
@@ -42,7 +43,8 @@ class ImageController {
 }
 
   async show ({ params, response }) {
-    return response.download(Helpers.tmpPath(`uploads/${params.path}`))
+
+    return response.download(`uploads/${params.path}`)
   }
 }
 
