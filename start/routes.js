@@ -18,6 +18,11 @@ Route.post('/sessions', 'SessionController.store')
 
 Route.post('/passwords', 'ForgotPasswordController.store')
 
+Route.group (() => {
+  Route.get('/anuncio', 'AnuncioController.index')
+  Route.post('/anuncio', 'AnuncioController.store')
+})//.middleware('auth')
+
 Route.get('/app', 'AppController.index').middleware(['auth'])
 
 Route.group (() => {
