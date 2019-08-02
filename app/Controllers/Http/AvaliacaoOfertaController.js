@@ -21,7 +21,36 @@ class AvaliacaoOfertaController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    try {
+      const avaliacaoOferta = await AvaliacaoOferta.all()
+
+      return response.status(200).send(avaliacaoOferta)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
+
+  /**
+   * Show a avaliacaooferta.
+   * GET avaliacaooferta
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async getAvaliacaoOferta({  params, request, response }) {
+    try {
+      const avaliacaoOferta = await Database.from('avaliacao_ofertas').where('oferta_id',params.oferta_id).where('user_id',params.user_id)
+
+      return response.status(200).send(avaliacaoOferta)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
 
   /**
    * Render a form to be used for creating a new avaliacaooferta.
@@ -45,11 +74,16 @@ class AvaliacaoOfertaController {
    */
   async store ({ request, response }) {
     try {
-      const data = request.post();
+      const data = request.post()
 
-      const avaliacaoOferta = await AvaliacaoOferta.create(data);
+      const avaliacaoOferta = await Database.from('avaliacao_ofertas').where('oferta_id',data.oferta_id).where('user_id',data.user_id)
 
-      return response.status(201).send({message: "Avaliação realizada!"});
+      if(!Object.keys(avaliacaoOferta).length){
+         avaliacaoOferta = await AvaliacaoOferta.create(data)
+         return response.status(201).send({message: "Avaliação realizada!"})
+      }else{
+        return response.status(409).send(({message: "Avaliação já realizada!"}))
+      }
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
@@ -67,7 +101,7 @@ class AvaliacaoOfertaController {
   async show ({ params, request, response, view }) {
     try {
       const media = await Database.from('avaliacao_ofertas').where('oferta_id',params.id).avg('nota')
-      
+
       return response.status(200).send(media)
 
     } catch (error) {
@@ -97,19 +131,19 @@ class AvaliacaoOfertaController {
    */
   async update ({ params, request, response }) {
     try {
-      const avaliacaoOferta = await AvaliacaoOferta.findOrFail(params.id);
+      const avaliacaoOferta = await AvaliacaoOferta.findOrFail(params.id)
 
-      const data = request.post();
+      const data = request.post()
 
       //if (avaliacaoOferta.id !== auth.avaliacaoOferta.id) {
          /// return response.status(401).send({ error: 'Não autorizado' })
       //}
 
-      avaliacaoOferta.merge(data);
+      avaliacaoOferta.merge(data)
 
-      await avaliacaoOferta.save();
+      await avaliacaoOferta.save()
 
-      return response.status(200).send(avaliacaoOferta);
+      return response.status(200).send(avaliacaoOferta)
 
     } catch (error) {
       return response.status(error.status).send({message: error})
@@ -125,6 +159,15 @@ class AvaliacaoOfertaController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const avaliacaoOferta = await AvaliacaoOferta.findOrFail(params.id)
+
+      await avaliacaoOferta.delete()
+
+      return response.status(200).send({message: "Avaliação de oferta removida"})
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 }
 
