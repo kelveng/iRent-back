@@ -40,6 +40,34 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
+
+  oferta () {
+    return this.hasMany('App/Models/Oferta')
+  }
+
+  anuncio () {
+    return this.belongsTo('App/Models/Anuncio')
+  }
+
+  avaliacaoOferta () {
+    return this.hasMany('App/Models/AvaliacaoOferta')
+  }
+
+  avaliacaoAnuncio () {
+    return this.belongsTo('App/Models/AvaliacaoAnuncio')
+  }
+
+  comentarioOferta () {
+    return this.hasMany('App/Models/ComentarioOferta')
+  }
+
+  comentarioAnuncio () {
+    return this.hasMany('App/Models/ComentarioAnuncio')
+  }
+
+  image () {
+    return this.belongsTo('App/Models/Image')
+  }
 }
 
 module.exports = User
