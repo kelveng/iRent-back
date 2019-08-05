@@ -2,7 +2,7 @@
 
 const Helpers = use('Helpers')
 const Oferta = use('App/Models/Oferta')
-
+const CloudinaryService = use('App/Services/CloudinaryService')
 
 class ImageController {
   /**
@@ -11,27 +11,21 @@ class ImageController {
    */
   async store ({ params,request }) {
     const oferta = await Oferta.findOrFail(params.id)
-
+    console.log("aqui");
   const images = request.file('image', {
     types: ['image'],
     size: '2mb'
   })
-
   
-  await images.moveAll('uploads', file => ({
-    name: `${Date.now()}-${file.clientName}`
-  }))
 
-  if (!images.movedAll()) {
-    return images.errors()
-  }
+  console.log(images.fileName);
+  console.log(images.name);
+  const cloudinaryResponse = await CloudinaryService.v2.uploader.upload(images.tmpPath, {folder: 'uploads'});             
+  console.log(cloudinaryResponse.secure_url);
+  
+  oferta.images().create({ path: cloudinaryResponse.secure_url   })
 
-  await Promise.all(
-    images
-      .movedList()
-      .map(image => oferta.images().create({ path: image.fileName }))
-  )
-  }
+}
 
   async showImages ({ params, request, response }) {
 
