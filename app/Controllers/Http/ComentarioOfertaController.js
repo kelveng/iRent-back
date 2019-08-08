@@ -4,6 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const ComentarioOferta = use('App/Models/ComentarioOferta')
+const Database = use('Database')
 
 /**
  * Resourceful controller for interacting with comentarioofertas
@@ -50,7 +51,9 @@ class ComentarioOfertaController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show ({ params, request, response }) {
+    const comentarioOfertas = await Database.from('comentario_ofertas').where('oferta_id',params.oferta_id)
+    return response.status(201).send(comentarioOfertas)
   }
 
   /**
