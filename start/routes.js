@@ -42,7 +42,7 @@ Route.group (() => {
 })
 
 Route.group (() => {
-  Route.get('/comentarioOfertas/:oferta_id', 'ComentarioOfertaController.index')
+  Route.get('/comentarioOfertas/:oferta_id', 'ComentarioOfertaController.show')
   Route.post('/comentarioOfertas', 'ComentarioOfertaController.store')
 })
 
