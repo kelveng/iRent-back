@@ -42,6 +42,11 @@ Route.group (() => {
 })
 
 Route.group (() => {
+  Route.get('/comentarioAnuncios/:anuncio_id', 'ComentarioAnuncioController.show')
+  Route.post('/comentarioAnuncios', 'ComentarioAnuncioController.store')
+})
+
+Route.group (() => {
   Route.get('/comentarioOfertas/:oferta_id', 'ComentarioOfertaController.show')
   Route.post('/comentarioOfertas', 'ComentarioOfertaController.store')
 })

@@ -4,6 +4,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const ComentarioAnuncio = use('App/Models/ComentarioAnuncio')
+const Database = use('Database')
+
 /**
  * Resourceful controller for interacting with comentarioanuncios
  */
@@ -20,17 +23,6 @@ class ComentarioAnuncioController {
   async index ({ request, response, view }) {
   }
 
-  /**
-   * Render a form to be used for creating a new comentarioanuncio.
-   * GET comentarioanuncios/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
 
   /**
    * Create/save a new comentarioanuncio.
@@ -41,6 +33,13 @@ class ComentarioAnuncioController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.post()
+      await ComentarioAnuncio.create(data)
+      return response.status(201).send({message: "Comentario realizado!"})   
+    } catch (error) {
+        return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -53,6 +52,8 @@ class ComentarioAnuncioController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const comentarioAnuncio = await Database.from('comentario_anuncios').where('anuncio_id',params.anuncio_id)
+    return response.status(201).send(comentarioAnuncio)
   }
 
   /**
