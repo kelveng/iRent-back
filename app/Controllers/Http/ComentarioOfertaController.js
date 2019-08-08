@@ -34,7 +34,7 @@ class ComentarioOfertaController {
   async store ({ params,request, response }) {
     try {
          const data = request.post()
-         comentarioOferta = await ComentarioOferta.create(data)
+         await ComentarioOferta.create(data)
          return response.status(201).send({message: "Comentario realizado!"})   
     } catch (error) {
       return response.status(error.status).send({message: error})
