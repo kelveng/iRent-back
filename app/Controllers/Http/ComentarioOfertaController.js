@@ -3,6 +3,7 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
+const ComentarioOferta = use('App/Models/ComentarioOferta')
 
 /**
  * Resourceful controller for interacting with comentarioofertas
@@ -20,17 +21,7 @@ class ComentarioOfertaController {
   async index ({ request, response, view }) {
   }
 
-  /**
-   * Render a form to be used for creating a new comentariooferta.
-   * GET comentarioofertas/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
+
 
   /**
    * Create/save a new comentariooferta.
@@ -40,7 +31,14 @@ class ComentarioOfertaController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ params,request, response }) {
+    try {
+         const data = request.post()
+         comentarioOferta = await ComentarioOferta.create(data)
+         return response.status(201).send({message: "Comentario realizado!"})   
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
