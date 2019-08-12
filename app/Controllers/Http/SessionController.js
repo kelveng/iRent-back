@@ -1,12 +1,16 @@
 'use strict'
 
+const User = use("App/Models/User")
+
 class SessionController {
   async store ({ request, auth, response }) {
     try {
-      const { email, password } = request.all()
+      const { username, password } = request.all()
 
-      const token = await auth.attempt(email, password)
+      const token = await auth.attempt(username, password)
+      const user = await User.findByOrFail('username', username)
 
+      token['user_id'] = user.id
       return token
 
     } catch (error) {

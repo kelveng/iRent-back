@@ -42,8 +42,7 @@ class AvaliacaoOfertaController {
    */
   async getAvaliacaoOferta({  params, request, response }) {
     try {
-
-     const avaliacaoOferta = await Database.from('avaliacao_ofertas').where('oferta_id',params.oferta_id).where('user_id',params.user_id)
+      const avaliacaoOferta = await Database.from('avaliacao_ofertas').where('oferta_id',params.oferta_id).where('user_id',params.user_id)
 
       return response.status(200).send(avaliacaoOferta)
 
