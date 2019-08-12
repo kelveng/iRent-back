@@ -58,6 +58,10 @@ Route.group (() => {
   Route.put('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.update')
 })
 
+Route.get('/user/:id/images', 'ImagePerfilController.showImages')
+Route.post('user/:id/images', 'ImagePerfilController.store')
+//.middleware('auth')
+
   Route.get('/oferta/:id/images', 'ImageController.showImages')
   Route.post('oferta/:id/images', 'ImageController.store')
   //.middleware('auth')

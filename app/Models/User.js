@@ -66,7 +66,7 @@ class User extends Model {
   }
 
   image () {
-    return this.belongsTo('App/Models/Image')
+    return this.belongsTo('App/Models/ImagePerfil')
   }
 }
 
