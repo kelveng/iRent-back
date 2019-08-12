@@ -52,7 +52,7 @@ class ComentarioAnuncioController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-    const comentarioAnuncio = await Database.from('comentario_anuncios').where('anuncio_id',params.anuncio_id)
+    const comentarioAnuncio = await ComentarioAnuncio.findByOrFail('anuncio_id', params.anuncio_id);
     await comentarioAnuncio.loadMany(['user'])
     return response.status(201).send(comentarioAnuncio)
   }
