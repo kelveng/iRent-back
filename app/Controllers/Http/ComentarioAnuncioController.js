@@ -53,20 +53,11 @@ class ComentarioAnuncioController {
    */
   async show ({ params, request, response, view }) {
     const comentarioAnuncio = await Database.from('comentario_anuncios').where('anuncio_id',params.anuncio_id)
+    await comentarioAnuncio.loadMany(['user'])
     return response.status(201).send(comentarioAnuncio)
   }
 
-  /**
-   * Render a form to update an existing comentarioanuncio.
-   * GET comentarioanuncios/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+
 
   /**
    * Update comentarioanuncio details.

@@ -12,7 +12,7 @@ class ImageController {
   async store ({ params,request }) {
     const oferta = await Oferta.findOrFail(params.id)
     console.log("aqui");
-  const images = request.file('image', {
+    const images = request.file('image', {
     types: ['image'],
     size: '2mb'
   })
