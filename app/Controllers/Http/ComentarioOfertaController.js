@@ -52,7 +52,9 @@ class ComentarioOfertaController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response }) {
-    const comentarioOfertas = await Database.from('comentario_ofertas').where('oferta_id',params.oferta_id)
+    const comentarioOfertas = await ComentarioOferta.query().where('oferta_id', params.oferta_id)
+                                                      .with('user')
+                                                      .fetch();
     return response.status(201).send(comentarioOfertas)
   }
 
