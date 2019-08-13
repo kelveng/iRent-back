@@ -21,10 +21,7 @@ class AnuncioController {
    */
   async index ({ request, response, view }) {
      try {
-      const anuncios = await Anuncio.query()
-            .with('user')
-            .with('avaliacaoAnuncio')
-            .fetch()
+      const anuncios = await Anuncio.query().fetch()
 
       return response.status(200).send(anuncios);
     } catch (error) {
@@ -52,6 +49,19 @@ class AnuncioController {
     }
   }
 
+  async getIdAnuncios ({ response, auth, params }) {
+    try {
+      const anuncios = await Anuncio.query()
+            .where('user_id',params.id)
+            .fetch();
+
+      return response.status(200).send(anuncios);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
   /**
    * Display a single anuncio.
    * GET anuncios/:id
@@ -64,7 +74,7 @@ class AnuncioController {
   async show ({ params, request, response, view }) {
     try {
       const anuncio = await Anuncio.findOrFail(params.id);
-      await anuncio.loadMany(['user', 'avaliacaoAnuncio'])
+      await anuncio.load('user')
 
       return response.status(200).send(anuncio);
 

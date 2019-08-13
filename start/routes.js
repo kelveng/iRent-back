@@ -34,6 +34,7 @@ Route.group (() => {
   Route.get('/oferta/:id', 'OfertaController.show')
   Route.delete('/oferta/:id', 'OfertaController.destroy')
   Route.put('/oferta/:id', 'OfertaController.update')
+  Route.get('/oferta/:id/user', 'OfertaController.getIdOfertas')
 })
 
 Route.group (() => {
@@ -65,5 +66,12 @@ Route.post('user/:id/images', 'ImagePerfilController.store')
   Route.get('/oferta/:id/images', 'ImageController.showImages')
   Route.post('oferta/:id/images', 'ImageController.store')
   //.middleware('auth')
+
+  Route.group (() => {
+    Route.get('/anuncio/:id', 'AnuncioController.show')
+    Route.delete('/anuncio/:id', 'AnuncioController.destroy')
+    Route.put('/anuncio/:id', 'AnuncioController.update')
+    Route.get('/anuncio/:id/user/', 'AnuncioController.getIdAnuncios')
+  })//.middleware('auth')
 
   Route.get('/images/:path', 'ImageController.show')

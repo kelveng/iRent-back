@@ -22,15 +22,44 @@ class OfertaController {
   async index ({ request, response, auth}) {
     try {
       const ofertas = await Oferta.query()
-            .with('images')
-            .with('comentarioOferta')
-            .with('avaliacaoOferta') 
-            .fetch()   
-            
+            .with('image')
+            .fetch()
+
       return response.status(200).send(ofertas);
     } catch (error) {
       return response.status(error.status).send({message: error})
-    } 
+    }
+  }
+
+   async getIdOfertas ({ request, response, auth, params }) {
+    try {
+
+      const ofertas = await Oferta.query()
+            .where('user_id',params.id)
+            .with('image')
+            .fetch();
+
+      return response.status(200).send(ofertas)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
+  async getFilter ({ request, response, auth}) {
+    try {
+      const termoPesquisa = request.post()
+      const termoValidos = Object.keys(termoPesquisa).filter(element => {
+        if (termoPesquisa[element] !== null){
+          return element
+        }
+      })
+      console.log("elemento", termoValidos)
+
+      return response.status(200).send(termoPesquisa);
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -63,23 +92,17 @@ class OfertaController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response }) {
-
+    try {
       const oferta = await Oferta.findOrFail(params.id);
-      await oferta.loadMany(['images', 'comentarioOferta', 'avaliacaoOferta'])
-      
+      await oferta.loadMany(['image', 'comentarioOferta'])
+
       return response.status(200).send(oferta);
 
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
-    /**
-   * Display a single oferta.
-   * GET ofertas/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
   /**
    * Update oferta details.
    * PUT or PATCH ofertas/:id
