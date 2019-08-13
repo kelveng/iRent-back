@@ -8,7 +8,6 @@ class UserController {
   async index ({ response, auth }) {
     try {
       const users = await User.query()
-            .with('image')
             .fetch()
 
       return response.status(200).send(users)
@@ -35,9 +34,6 @@ class UserController {
   async show ({ params, response }) {
     try {
       const user = await User.findByOrFail('username', params.username)
-
-      await user.load(['image'])
-
       return response.status(200).send(user)
 
     } catch (error) {
@@ -48,8 +44,6 @@ class UserController {
   async getById ({ params, response }) {
     try {
       const user = await User.findByOrFail('id', params.id)
-
-      await user.load(['image'])
 
       return response.status(200).send(user)
 
