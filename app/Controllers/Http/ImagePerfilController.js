@@ -23,7 +23,7 @@ class ImagePerfilController {
   const cloudinaryResponse = await CloudinaryService.v2.uploader.upload(images.tmpPath, {folder: 'uploads'});             
   console.log(cloudinaryResponse.secure_url);
   
-  user.images().create({ path: cloudinaryResponse.secure_url   })
+  user.image().create({ path: cloudinaryResponse.secure_url   })
 
 }
 
