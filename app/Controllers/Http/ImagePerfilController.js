@@ -23,9 +23,9 @@ class ImagePerfilController {
   const cloudinaryResponse = await CloudinaryService.v2.uploader.upload(images.tmpPath, {folder: 'uploads'});             
   console.log(cloudinaryResponse.secure_url);
   
-  user.path = cloudinaryResponse.secure_url  
+  user.merge({ path: cloudinaryResponse.secure_url    })
   await user.save()
-
+  return response.status(201).send({message: "Imagem incluida com sucesso!"});
 }
 
   async showImages ({ params, request, response }) {
