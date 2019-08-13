@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class AnuncioSchema extends Schema {
-  up () {
-    this.create('anuncios', (table) => {
+class ImagePerfilSchema extends Schema {
+ up () {
+    this.create('imagePerfil', table => {
       table.increments()
       table
         .integer('user_id')
@@ -14,17 +14,14 @@ class AnuncioSchema extends Schema {
         .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-      table.string('titulo', 100).notNullable()
-      table.string('descricao', 1024).notNullable()
-      table.string('preferencia', 1024)
-      table.integer('qtdCurtidas').notNullable()
+      table.string('path').notNullable()
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('anuncios')
+    this.dropIfExists('imagePerfil')
   }
 }
 
-module.exports = AnuncioSchema
+module.exports = ImagePerfilSchema
