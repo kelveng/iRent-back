@@ -9,7 +9,7 @@ class ImagePerfilController {
    * Create/save a new image.
    * POST images
    */
-  async store ({ params,request }) {
+  async store ({ params,request, response }) {
     const user = await User.findOrFail(params.id)
     console.log("aqui");
     const images = request.file('image', {
@@ -23,7 +23,7 @@ class ImagePerfilController {
   const cloudinaryResponse = await CloudinaryService.v2.uploader.upload(images.tmpPath, {folder: 'uploads'});             
   console.log(cloudinaryResponse.secure_url);
   
-  user.merge({ path: cloudinaryResponse.secure_url    })
+  user.merge({ path: cloudinaryResponse.secure_url  })
   await user.save()
   return response.status(201).send({message: "Imagem incluida com sucesso!"});
 }
