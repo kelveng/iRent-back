@@ -15,13 +15,15 @@ class Oferta extends Model {
   }
 
    getMedia ({ id }) {    
-    const media = 0;
-    try{
-      media = await AvaliacaoOferta.query().where('oferta_id',id).getAvg('nota')  
-    }catch{
-      media = 0
+    const media = async function () {
+      try{
+        console.log(id)
+        return await AvaliacaoOferta.query().where('oferta_id',id).getAvg('nota')  
+      }catch{
+        return 0
+      }
     }
-    
+
     return media
   }
 
