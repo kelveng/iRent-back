@@ -15,7 +15,7 @@ class Oferta extends Model {
   }
 
   async getMedia ({ id }) {    
-    const media = await AvaliacaoOferta.query().where('oferta_id',id).avg('nota')
+    const media = await AvaliacaoOferta.query().where('oferta_id',id).getAvg(nota)
     return media
   }
 
