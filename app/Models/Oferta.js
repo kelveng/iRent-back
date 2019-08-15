@@ -10,18 +10,14 @@ class Oferta extends Model {
 
     this.addHook('afterFetch', async items => {
       for (let item of items) {
-        const usersCount = await item.avaliacaoOferta().getCount()
-        item.$sideLoaded.media = usersCount
+        const usersCount = await item.avaliacaoOferta().getAvg('nota')
+        item.$sideLoaded.media_avaliacao = usersCount
       }
     })
   }
 
   static get hidden() {
     return ['created_at', 'updated_at']
-  }
-
-  static get computed () {
-    return ['media']
   }
 
 
