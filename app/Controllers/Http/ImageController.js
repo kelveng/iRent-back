@@ -30,7 +30,7 @@ class ImageController {
   async showImages ({ params, request, response }) {
 
     const oferta = await Oferta.findOrFail(params.id);
-    const images = await oferta.images().fetch()
+    const images = await oferta.image().fetch()
 
     return response.status(200).send(images);
 
