@@ -21,7 +21,7 @@ class OfertaController {
   async index ({ request, response, auth}) {
     try {
       const ofertas = await Oferta.query()
-            .with('image')
+            .with('image')            
             .fetch()
 
       return response.status(200).send(ofertas);

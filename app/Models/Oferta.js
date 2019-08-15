@@ -14,15 +14,8 @@ class Oferta extends Model {
     return ['media']
   }
 
-   getMedia ({ id }) {    
-      try {
-        console.log(id)
-        return await AvaliacaoOferta.query().where('oferta_id',id).getAvg('nota')  
-      } catch (error) {
-        console.log(0)
-        return 0 
-      }
-       return 0
+   getMedia ({ id }) {          
+       return this.avaliacaoOferta().getAvg('nota')
   }
 
   endereco () {
