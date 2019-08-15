@@ -15,7 +15,7 @@ class Oferta extends Model {
   }
 
    getMedia ({ id }) {          
-       return this.avaliacaoOferta().getAvg('nota')
+       return id
   }
 
   endereco () {
