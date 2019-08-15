@@ -11,7 +11,7 @@ class Oferta extends Model {
     this.addHook('afterFetch', async items => {
       items = items.map(async item => {
         const users = await item.avaliacaoOferta().count('id') // It returns [ { 'count(`id`)': 1 } ]
-        item.users_count = Object.values(users[0])[0]
+        item.$sideLoaded.media = Object.values(users[0])[0]
         return item
       })
 
