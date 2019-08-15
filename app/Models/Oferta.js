@@ -9,6 +9,15 @@ class Oferta extends Model {
     return ['created_at', 'updated_at']
   }
 
+  static get computed () {
+    return ['media']
+  }
+
+  getMedia ({ id }) {
+    const media = await Database.from('avaliacao_ofertas').where('oferta_id',id).avg('nota')
+    return media
+  }
+
   endereco () {
     return this.belongsTo('App/Models/Endereco')
   }
