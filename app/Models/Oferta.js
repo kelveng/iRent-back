@@ -8,12 +8,15 @@ class Oferta extends Model {
   static boot () {
     super.boot()
 
-  this.addHook('afterFetch', async items => {
-    for (let item of items) {
-      const usersCount = await item.avaliacaoOferta.getCount();
-      item.$sideLoaded.media = usersCount
-    }
-  })
+    this.addHook('afterFetch', async items => {
+      items = items.map(async item => {
+        const users = await item.avaliacaoOferta().count('id') // It returns [ { 'count(`id`)': 1 } ]
+        item.users_count = Object.values(users[0])[0]
+        return item
+      })
+
+      return items
+    })
   }
 
   static get hidden() {
