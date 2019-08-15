@@ -2,7 +2,7 @@
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
-const Database = use('Database')
+const AvaliacaoOferta = use('App/Models/AvaliacaoOferta')
 
 class Oferta extends Model {
 
@@ -14,9 +14,8 @@ class Oferta extends Model {
     return ['media']
   }
 
-  getMedia ({ id }) {
-    const media = await Database.from('avaliacao_ofertas').where('oferta_id',id).avg('nota')
-    return media
+  getMedia ({ id }) {    
+    return await AvaliacaoOferta.query().where('oferta_id',id).avg('nota')
   }
 
   endereco () {
