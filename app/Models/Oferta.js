@@ -5,6 +5,16 @@ const Model = use('Model')
 const AvaliacaoOferta = use('App/Models/AvaliacaoOferta')
 
 class Oferta extends Model {
+  static boot () {
+    super.boot()
+
+  this.addHook('afterFetch', async items => {
+    for (let item of items) {
+      const usersCount = await item.avaliacaoOferta.getCount();
+      item.$sideLoaded.media = usersCount
+    }
+  })
+  }
 
   static get hidden() {
     return ['created_at', 'updated_at']
@@ -14,9 +24,6 @@ class Oferta extends Model {
     return ['media']
   }
 
-   getMedia ({ id }) {          
-       return id
-  }
 
   endereco () {
     return this.belongsTo('App/Models/Endereco')
