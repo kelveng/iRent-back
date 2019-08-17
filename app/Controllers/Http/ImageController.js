@@ -23,7 +23,7 @@ class ImageController {
   const cloudinaryResponse = await CloudinaryService.v2.uploader.upload(images.tmpPath, {folder: 'uploads'});             
   console.log(cloudinaryResponse.secure_url);
   
-  oferta.images().create({ path: cloudinaryResponse.secure_url   })
+  oferta.image().create({ path: cloudinaryResponse.secure_url   })
 
 }
 
