@@ -28,6 +28,7 @@ Route.get('/app', 'AppController.index').middleware(['auth'])
 Route.group (() => {
   Route.get('/oferta', 'OfertaController.index')
   Route.post('/oferta', 'OfertaController.store')
+  Route.post('/oferta/filtro', 'OfertaController.getFilter')
 })
 
 Route.group (() => {  
