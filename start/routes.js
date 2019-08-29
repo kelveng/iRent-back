@@ -39,11 +39,6 @@ Route.group (() => {
 })
 
 Route.group (() => {
-  Route.get('/avaliacaoOfertas', 'AvaliacaoOfertaController.index')
-  Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.store')
-})
-
-Route.group (() => {
   Route.get('/comentarioAnuncios/:anuncio_id', 'ComentarioAnuncioController.show')
   Route.post('/comentarioAnuncios', 'ComentarioAnuncioController.store')
 })
@@ -54,11 +49,41 @@ Route.group (() => {
 })
 
 Route.group (() => {
+  Route.get('/avaliacaoOfertas', 'AvaliacaoOfertaController.index')
+  Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.store')
+})
+
+Route.group (() => {
   Route.get('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.show')
   Route.get('/avaliacaoOfertas/:user_id/:oferta_id', 'AvaliacaoOfertaController.getAvaliacaoOferta')
   Route.delete('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.destroy')
   Route.put('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.update')
 })
+
+Route.group (() => {
+  Route.get('/avaliacaoAnuncios', 'AvaliacaoAnuncioController.index')
+  Route.post('/avaliacaoAnuncios', 'AvaliacaoAnuncioController.store')
+})
+
+Route.group (() => {
+  Route.get('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.show')
+  Route.get('/avaliacaoAnuncios/:user_id/:anuncio_id', 'AvaliacaoAnuncioController.getAvaliacaoAnuncio')
+  Route.delete('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.destroy')
+  Route.put('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.update')
+})
+
+Route.group (() => {
+  Route.get('/endereco', 'EnderecoController.index')
+  Route.post('/endereco', 'EnderecoController.store')
+})
+
+Route.group (() => {
+  Route.get('/endereco/:id', 'EnderecoController.show')
+  Route.get('/endereco/oferta/:oferta_id', 'EnderecoController.getEnderecoOferta')
+  Route.delete('/endereco/:id', 'EnderecoController.destroy')
+  Route.put('/endereco/:id', 'EnderecoController.update')
+})
+
 
 Route.get('/user/:id/images', 'ImagePerfilController.showImages')
 Route.post('user/:id/images', 'ImagePerfilController.store')
