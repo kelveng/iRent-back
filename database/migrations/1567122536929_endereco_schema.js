@@ -7,7 +7,13 @@ class EnderecoSchema extends Schema {
   up () {
     this.table('enderecos', (table) => {
       // alter table
-      table.string('descricao', 512)
+      table
+      .integer('oferta_id')
+      .unsigned()
+      .references('id')
+      .inTable('ofertas')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE')
     })
   }
 
