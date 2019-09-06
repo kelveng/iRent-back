@@ -9,7 +9,7 @@ class ImageController {
    * Create/save a new image.
    * POST images
    */
-  async store ({ params,request }) {
+  async store ({ params,request,response }) {
     const oferta = await Oferta.findOrFail(params.id)
     console.log("aqui");
     const images = request.file('image', {
