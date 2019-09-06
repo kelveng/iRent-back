@@ -81,7 +81,7 @@ class OfertaController {
 
       const oferta = await Oferta.create(data);
 
-      return response.status(201).send({message: "Oferta criada"});
+      return response.status(201).send({oferta_id: oferta.id});
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
