@@ -24,6 +24,7 @@ class ImageController {
   console.log(cloudinaryResponse.secure_url);
   
   oferta.image().create({ path: cloudinaryResponse.secure_url   })
+  return response.status(201).send({message: "Imagem incluida com sucesso!"});
 
 }
 
